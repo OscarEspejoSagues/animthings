@@ -14,50 +14,64 @@ public class angleConstraints : MonoBehaviour
 
     public Transform parent;
     public Transform child;
-    public Transform child02;
-    public Transform original;
+    private Vector3 v1, v2;
+    private Quaternion newRotation;
+    private Vector3 e;
+    private float angle;
 
 
     void Start()
     {
-
     }
 
-    void Update()
+    void LateUpdate()
     {
-       
-           
 
+
+        Debug.DrawLine(transform.position, transform.position + e, Color.red);
         if (active)
         {
-            //solve your exercise here
-            //parent.Rotate(Vector3.right, 1.2f);
-            //child.Rotate(Vector3.up, 1.4f);
-            //child02.Rotate(Vector3.forward, 0.3f);
-            // if (child.transform.rotation.eulerAngles.y <= 90 && child.transform.rotation.eulerAngles.y >= 0)
-
-            float angle = 2 * Mathf.Acos(child.rotation.w);
-            //Debug.Log(angle);
-
-            float comp0 = Mathf.Cos(angle / 2);//definicion del angulo teta
-            float comp1 = child.rotation.x * Mathf.Sin(angle / 2);
-            float comp2 = child.rotation.y * Mathf.Sin(angle / 2);
-            float comp3 = child.rotation.z * Mathf.Sin(angle / 2);
-
-            Vector4 Axis = new Vector4(comp0, comp1, comp2, comp3);
-            Debug.Log(Axis);
-            if (comp0 > 0.3 && comp0 <= 0.7)
+            angle = Mathf.Acos(transform.localRotation.w) * 2.0f;
+            Debug.Log(angle * Mathf.Rad2Deg);
+            if (angle * Mathf.Rad2Deg > maxAngle)
             {
-                transform.localRotation = original.transform.localRotation;
+                Debug.Log("maxangle");
+                v1 = parent.position - transform.position;
+                v2 = transform.position - child.position;
+
+                e = Vector3.Cross(v1, v2);
+                e.Normalize();
+                newRotation.w = Mathf.Cos(maxAngle * Mathf.Deg2Rad / 2.0f);
+                newRotation.x = Mathf.Sin(maxAngle * Mathf.Deg2Rad / 2.0f) * e.x;
+                newRotation.y = Mathf.Sin(maxAngle * Mathf.Deg2Rad / 2.0f) * e.y;
+                newRotation.z = Mathf.Sin(maxAngle * Mathf.Deg2Rad / 2.0f) * e.z;
+
+                transform.localRotation = newRotation;
             }
 
-           
+            else if (angle * Mathf.Rad2Deg < minAngle)
+            {
+                Debug.Log("minangle");
+                v1 = parent.position - transform.position;
+                v2 = transform.position - child.position;
+
+                e = Vector3.Cross(v1, v2);
+                e.Normalize();
+                newRotation.w = Mathf.Cos(minAngle * Mathf.Deg2Rad / 2.0f);
+                newRotation.x = Mathf.Sin(minAngle * Mathf.Deg2Rad / 2.0f) * e.x;
+                newRotation.y = Mathf.Sin(minAngle * Mathf.Deg2Rad / 2.0f) * e.y;
+                newRotation.z = Mathf.Sin(minAngle * Mathf.Deg2Rad / 2.0f) * e.z;
+
+                transform.localRotation = newRotation;
+            }
+
+
         }
     }
 
-    //add auxiliary functions, if needed, below
+    private float ComputeAngle(Vector3 ToParent, Vector3 ToChild)
+    {
 
-
-
-
+        return 0.0f;
+    }
 }
