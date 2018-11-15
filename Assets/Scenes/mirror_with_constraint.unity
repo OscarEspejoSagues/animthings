@@ -194,7 +194,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 493609191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0144bb7e382d6d74ba5a1cd69b669613, type: 3}
   m_Name: 
@@ -643,7 +643,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed07ebbf6969386448c6f42748ec9d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plane: {fileID: 634127463}
+  plane: {fileID: 634127464}
+  child: {fileID: 493609192}
 --- !u!4 &1383100715 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4232223170723980, guid: 4679d90a25e01b646b05cfaf5e86076f,
@@ -741,7 +742,7 @@ Prefab:
     - target: {fileID: 114284497306762468, guid: 4679d90a25e01b646b05cfaf5e86076f,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114284497306762468, guid: 4679d90a25e01b646b05cfaf5e86076f,
         type: 2}

@@ -10,8 +10,8 @@ public class ExB : MonoBehaviour {
 
     
 
-    private Vector3 v1;
-    private Vector3 v2;
+    private Vector3 planeNormal;
+    private Vector3 childPosition;
 
 
     // Use this for initialization
@@ -20,17 +20,22 @@ public class ExB : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        v1 = plane.up;
-        v2 = child.position;
+	void LateUpdate () {
+        planeNormal = plane.up;
+        childPosition = child.position;
 
-        Vector3 projection = Vector3.Dot(v2-this.transform.position,v1)*v1;
-        Vector3 projectionPoint = (v2-this.transform.position) - projection;
+        float projectionValue = Vector3.Dot(childPosition-this.transform.position, plane.position + planeNormal);
+        Vector3 projection = projectionValue * planeNormal;
 
-        Vector3 axis = Vector3.Normalize(Vector3.Cross((v2 - this.transform.position), (projectionPoint - this.transform.position)));
+        Debug.Log(projectionValue);
+        Vector3 projectionPoint = (childPosition-this.transform.position) - projection;
 
-        float sin = Vector3.Cross((v2 - this.transform.position), (projectionPoint-this.transform.position)).magnitude;
-        float cos = Vector3.Dot((v2 - this.transform.position), (projectionPoint - this.transform.position));
+        Debug.DrawLine(transform.position, projectionPoint, Color.yellow);
+
+        Vector3 axis = Vector3.Normalize(Vector3.Cross((childPosition - this.transform.position), (projectionPoint - this.transform.position)));
+
+        float sin = Vector3.Cross((childPosition - this.transform.position), (projectionPoint-this.transform.position)).magnitude;
+        float cos = Vector3.Dot((childPosition - this.transform.position), (projectionPoint - this.transform.position));
         float angle = Mathf.Atan2(sin, cos);
 
         Quaternion Quad;
