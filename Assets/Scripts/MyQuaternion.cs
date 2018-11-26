@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 //la inversa de un quaternion es el conjugado
 //w=cos(alfa/2) x,y,z = sin(alfa/2)
 
@@ -14,7 +13,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    class MyQuaternion
+    public class MyQuaternion
     {
         private float W;
         private float X;
