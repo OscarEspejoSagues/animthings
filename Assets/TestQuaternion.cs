@@ -107,7 +107,7 @@ public class TestQuaternion : MonoBehaviour {
             {
                 Normalize();
             }
-            float angle = 2 * (Mathf.Acos(W)*Mathf.Deg2Rad);
+            float angle = 2 * Mathf.Acos(W);
             return angle;
         }
 
@@ -129,7 +129,7 @@ public class TestQuaternion : MonoBehaviour {
     void Start () {
         Quaternion X;
         MyQuaternion J = new MyQuaternion();
-        X.w = 1;
+        X.w = 8;
         X.x = 2;
         X.y = 3;
         X.z = 4;
