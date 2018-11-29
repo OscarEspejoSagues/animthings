@@ -95,8 +95,8 @@ namespace ENTICourse.IK
         void Update()
         {
             // Do we have to approach the target?
-           //TODO
-
+            //TODO
+            target = Destination.position;
            
             if (ErrorFunction(target, Solution) > StopThreshold)
                 ApproachTarget(target);
@@ -111,15 +111,29 @@ namespace ENTICourse.IK
         public void ApproachTarget(Vector3 target)
         {
             //TODO
-           
+            for (int i = 0; i<Joints.Length-1; i++)
+            {
+                Solution[i] = (float) (Solution[i] - (LearningRate * CalculateGradient(target, Solution, i, DeltaGradient)));
+            }
+
+            for (int i = 0; i < Joints.Length - 1; i++)
+            {
+                Joints[i].MoveArm(Solution[i]);
+            }
         }
 
         
         public float CalculateGradient(Vector3 target, float[] Solution, int i, float delta)
         {
-            //TODO 
             float gradient = 0;
+            float SolutionAngle = Solution[i];
+            float f_x = DistanceFromTarget(target, Solution);
+            Debug.Log("target: " + target);
+            Solution[i] += delta;
+            float f_x_plus_delta = DistanceFromTarget(target, Solution);
 
+            gradient = (f_x_plus_delta - f_x) / delta;
+            Solution[i] = SolutionAngle;
             return gradient;
         }
 
