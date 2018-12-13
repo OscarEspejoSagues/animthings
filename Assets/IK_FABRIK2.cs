@@ -19,6 +19,7 @@ public class IK_FABRIK2 : MonoBehaviour
         distances = new float[joints.Length - 1];
         copy = new Vector3[joints.Length];
 
+        //las distancias entre joints son siempre las mismas no varian
         for (int i = 0; i < distances.Length; i++)
         {
             distances[i] = (joints[i].position - joints[i + 1].position).magnitude;
@@ -92,11 +93,25 @@ public class IK_FABRIK2 : MonoBehaviour
             // Update original joint rotations
             for (int i = 0; i <= joints.Length - 2; i++)
             {
-                //TODO 
-                float angle = Vector3.Angle(joints[i + 1].position - joints[i].position, copy[i + 1] - joints[i].position);
-                Vector3 axis = Vector3.Cross(joints[i + 1].position - joints[i].position, copy[i + 1] - joints[i].position);
-                Debug.Log("rotation to apply to first joint is: " + angle);
-                joints[i].rotation = Quaternion.AngleAxis(angle, axis);
+                /*Vector3 vec = copy[i + 1] - copy[i];
+                vec.Normalize();
+                joints[i].up = vec;*/
+
+                Vector3 a, b;
+
+                a = joints[i + 1].position - joints[i].position;
+                b = copy[i + 1] - copy[i];
+
+                Vector3 axis = Vector3.Cross(a, b).normalized;
+
+                float cosa = Vector3.Dot(a, b) / (a.magnitude * b.magnitude);
+                float sina = Vector3.Cross(a.normalized, b.normalized).magnitude;
+
+                float alpha = Mathf.Atan2(sina, cosa);
+
+                Quaternion q = new Quaternion(axis.x * Mathf.Sin(alpha / 2), axis.y * Mathf.Sin(alpha / 2), axis.z * Mathf.Sin(alpha / 2), Mathf.Cos(alpha / 2));
+                joints[i].position = copy[i];
+                joints[i].rotation = q * joints[i].rotation;
 
             }          
         }
